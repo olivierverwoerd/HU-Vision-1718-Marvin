@@ -1,1 +1,1 @@
-# Project Vision by Renske Kuip en Olivier Verwoerd
+# Project Vision by Renske Kuip and Olivier Verwoerd
