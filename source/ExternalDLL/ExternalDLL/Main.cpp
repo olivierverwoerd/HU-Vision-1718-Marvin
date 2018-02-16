@@ -15,7 +15,7 @@ bool executeSteps(DLLExecution * executor);
 
 int main(int argc, char * argv[]) {
 
-	ImageFactory::setImplementation(ImageFactory::DEFAULT);
+	ImageFactory::setImplementation(ImageFactory::DEFAULT);  // DIT MOETEN WE OMZETTEN NAAR STUDENT OM ONS EIGEN WERK TE Runnen
 	//ImageFactory::setImplementation(ImageFactory::STUDENT);
 
 
@@ -74,14 +74,14 @@ bool executeSteps(DLLExecution * executor) {
 	}
 	ImageIO::saveIntensityImage(*executor->resultPreProcessingStep2, ImageIO::getDebugFileName("Pre-processing-2.png"));
 
-	if (!executor->executePreProcessingStep3(false)) {
-		std::cout << "Pre-processing step 3 failed!" << std::endl;
+	if (!executor->executePreProcessingStep3(true)) { // deze moet naar true voor Edgedetection 
+		std::cout << "Pre-processing edgedetection failed!" << std::endl;
 		return false;
 	}
 	ImageIO::saveIntensityImage(*executor->resultPreProcessingStep3, ImageIO::getDebugFileName("Pre-processing-3.png"));
 
-	if (!executor->executePreProcessingStep4(false)) {
-		std::cout << "Pre-processing step 4 failed!" << std::endl;
+	if (!executor->executePreProcessingStep4(false)) { // deze moet naar true voor Thresholding 
+		std::cout << "Pre-processing Thresholding failed!" << std::endl;
 		return false;
 	}
 	ImageIO::saveIntensityImage(*executor->resultPreProcessingStep4, ImageIO::getDebugFileName("Pre-processing-4.png"));
