@@ -1,4 +1,5 @@
 *.suo
 *.db
 *.opendb
-*.db
+*.VC.db
+source/ExternalDLL/ExternalDLL2015.VC.db
