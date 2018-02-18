@@ -37,7 +37,7 @@ int main(int argc, char * argv[]) {
 
 	DLLExecution * executor = new DLLExecution(input);
 
-
+	/* Skip the whole face thing
 	if (executeSteps(executor)) {
 		std::cout << "Face recognition successful!" << std::endl;
 		std::cout << "Facial parameters: " << std::endl;
@@ -49,14 +49,8 @@ int main(int argc, char * argv[]) {
 	delete executor;
 	system("pause");
 	return 1;
+	*/
 }
-
-
-
-
-
-
-
 
 
 
