@@ -16,12 +16,21 @@ IntensityImage * StudentPreProcessing::stepScaleImage(const IntensityImage &imag
 IntensityImage * StudentPreProcessing::stepEdgeDetection(const IntensityImage &image) const {
 	std::cout << "Starting EdgeDetection\n\n";
 	clock_t time = clock(); //start clock
-	std::cout << (int)image.getPixel(1, 1) << '\n'; // dit mag
+	std::cout << (int)image.getPixel(12, 1) << '\n'; // dit mag
 	std::cout << "w="<< image.getWidth() << "  h=" << image.getHeight() <<'\n'; // dit mag
+
+	auto width = image.getWidth();
+	auto heigth = image.getHeight();
+
+	std::cout << "width=" << width << std::endl;
+	std::cout << "height=" << heigth << std::endl;
+
+	
+
 	//IntensityImage new(image.getWidth(), image.getHeight());
 
 	//image.setPixel(1,2, 'd');
-	std::cout << (int)image.getPixel(16, 16) << '\n'; // dit mag
+	//std::cout << (int)image.getPixel(16, 16) << '\n'; // dit mag
 	//IntensityImage &new = IntensityImage::Image(12, 12);
 	//IntensityImage * newIntensityImage(const int 600, const int 600);
 	//IntensityImage * ImageFactory::ImplementationStudent::newIntensityImage(const int width, const int height);
@@ -33,7 +42,7 @@ IntensityImage * StudentPreProcessing::stepEdgeDetection(const IntensityImage &i
 	
 
 	time = clock() - time;
-	std::cout << "Time spent EdgeDetection: " << time << " milliseconds \n";
+	std::cout << "\nTime spent EdgeDetection: " << time << " milliseconds \n";
 	return 0;
 }
 
