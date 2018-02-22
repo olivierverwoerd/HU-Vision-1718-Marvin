@@ -10,9 +10,13 @@ IntensityImageStudent::IntensityImageStudent() : IntensityImage() {
 	// ThoroughBushThoroughBrier = y
 }
 
-IntensityImageStudent::IntensityImageStudent(const IntensityImageStudent &other) : IntensityImage(other.getWidth(), other.getHeight()) {
+IntensityImageStudent::IntensityImageStudent(const IntensityImageStudent &other) : IntensityImage(other.getWidth(), other.getHeight()), temp(new Intensity[image.getWidth()*image.getHeight()]){
 	//int throwError = 0, e = 1 / throwError;
 	//TODO: Create a copy from the other object
+
+	for (int i = 0; i < getWidth()*getHeight(); i++) {
+		temp[i] = other.temp[i];
+	}
 }
 
 IntensityImageStudent::IntensityImageStudent(const int width, const int height) : IntensityImage(width, height) {

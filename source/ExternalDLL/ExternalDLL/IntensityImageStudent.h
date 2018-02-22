@@ -13,6 +13,8 @@ private:
 public:
 	IntensityImageStudent();
 	IntensityImageStudent(const IntensityImageStudent &other);
+	//copies an intensity image
+
 	IntensityImageStudent(const int width, const int height);
 	~IntensityImageStudent();
 
