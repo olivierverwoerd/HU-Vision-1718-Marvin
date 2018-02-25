@@ -49,7 +49,7 @@ IntensityImage * StudentPreProcessing::stepEdgeDetection(const IntensityImage &i
 IntensityImage * StudentPreProcessing::stepThresholding(const IntensityImage &image) const {
 	std::cout << "Starting Thresholding\n\n";
 	clock_t time = clock(); //start clock
-
+	//wederom een nieuwe afbeeling maken in student
 
 
 
