@@ -17,15 +17,15 @@ IntensityImage * StudentPreProcessing::stepEdgeDetection(const IntensityImage &i
 	std::cout << "Starting EdgeDetection\n\n";
 	clock_t time = clock(); //start clock
 
-
 	std::cout << (int)image.getPixel(1, 1) << '\n'; // dit mag
 	std::cout << "w="<< image.getWidth() << "  h=" << image.getHeight() <<'\n'; // dit mag
 
-	Intensity x = 4;
-	image.setPixel(1, 1, x);
-
 	auto width = image.getWidth();
 	auto heigth = image.getHeight();
+
+	auto beep = IntensityImage(width, heigth);
+	Intensity x = 4;
+	beep.setPixel(1, 1, x);
 
 	/*for (int i = 0; i < width; i++) {
 		for (int j = 0; j < heigth; j++) {
