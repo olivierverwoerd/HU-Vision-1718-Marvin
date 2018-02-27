@@ -16,11 +16,22 @@ IntensityImage * StudentPreProcessing::stepScaleImage(const IntensityImage &imag
 IntensityImage * StudentPreProcessing::stepEdgeDetection(const IntensityImage &image) const {
 	std::cout << "Starting EdgeDetection\n\n";
 	clock_t time = clock(); //start clock
-	std::cout << (int)image.getPixel(12, 1) << '\n'; // dit mag
+
+
+	std::cout << (int)image.getPixel(1, 1) << '\n'; // dit mag
 	std::cout << "w="<< image.getWidth() << "  h=" << image.getHeight() <<'\n'; // dit mag
+
+	Intensity x = 4;
+	image.setPixel(1, 1, x);
 
 	auto width = image.getWidth();
 	auto heigth = image.getHeight();
+
+	/*for (int i = 0; i < width; i++) {
+		for (int j = 0; j < heigth; j++) {
+			std::cout << (int)image.getPixel(i, j) << '\n';
+		}
+	}*/
 
 	std::cout << "width=" << width << std::endl;
 	std::cout << "height=" << heigth << std::endl;

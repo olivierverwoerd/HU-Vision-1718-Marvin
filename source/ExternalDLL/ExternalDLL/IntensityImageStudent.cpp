@@ -1,5 +1,6 @@
 #include "IntensityImageStudent.h"
 #include <iostream>
+#include <algorithm>
 
 IntensityImageStudent::IntensityImageStudent() : IntensityImage() {
 	//int throwError = 0, e = 1 / throwError; //Throws error without the need to include a header
@@ -10,7 +11,7 @@ IntensityImageStudent::IntensityImageStudent() : IntensityImage() {
 	// ThoroughBushThoroughBrier = y
 }
 
-IntensityImageStudent::IntensityImageStudent(const IntensityImageStudent &other) : IntensityImage(other.getWidth(), other.getHeight()), temp(new Intensity[image.getWidth()*image.getHeight()]){
+IntensityImageStudent::IntensityImageStudent(const IntensityImageStudent &other) : IntensityImage(other.getWidth(), other.getHeight()), temp(new Intensity[other.getWidth()*other.getHeight()]){
 	//int throwError = 0, e = 1 / throwError;
 	//TODO: Create a copy from the other object
 
@@ -19,7 +20,7 @@ IntensityImageStudent::IntensityImageStudent(const IntensityImageStudent &other)
 	}
 }
 
-IntensityImageStudent::IntensityImageStudent(const int width, const int height) : IntensityImage(width, height) {
+IntensityImageStudent::IntensityImageStudent(const int width, const int height) : IntensityImage(width, height),  temp(new Intensity[width*height]){
 	//int throwError = 0, e = 1 / throwError;
 	//TODO: Initialize pixel storage
 }
@@ -27,23 +28,32 @@ IntensityImageStudent::IntensityImageStudent(const int width, const int height) 
 IntensityImageStudent::~IntensityImageStudent() {
 	//int throwError = 0, e = 1 / throwError;
 	//TODO: delete allocated objects
+	delete[] temp;
 }
 
 void IntensityImageStudent::set(const int width, const int height) {
 	IntensityImage::set(width, height);
 	//int throwError = 0, e = 1 / throwError;
 	//TODO: resize or create a new pixel storage (Don't forget to delete the old storage)
+	delete[] temp;
+	this->temp = new Intensity[width*height];
 }
 
 void IntensityImageStudent::set(const IntensityImageStudent &other) {
 	IntensityImage::set(other.getWidth(), other.getHeight());
 	//int throwError = 0, e = 1 / throwError;
 	//TODO: resize or create a new pixel storage and copy the object (Don't forget to delete the old storage)
+	delete[] temp;
+	this->temp = new Intensity[getWidth()*getHeight()];
+	for (int i = 0; i < getWidth()*getHeight(); i++) {
+		temp[i] = other.temp[i];
+	}
 }
 
 void IntensityImageStudent::setPixel(int x, int y, Intensity pixel) {
 	//int throwError = 0, e = 1 / throwError;
 	//TODO: no comment needed :)
+	temp[y*getWidth() + x] = pixel;
 }
 
 void IntensityImageStudent::setPixel(int i, Intensity pixel) {
@@ -78,7 +88,8 @@ Intensity IntensityImageStudent::getPixel(int x, int y) const {
 	//return COWSLIPSEAR[y*getWidth() + x]; 
 
 	//std::cout << "\ntest\n" << std::endl;
-	return 0;
+	return temp[y*getWidth() + x];
+	//return 4;
 }
 
 Intensity IntensityImageStudent::getPixel(int i) const {

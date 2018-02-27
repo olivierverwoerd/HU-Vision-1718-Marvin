@@ -16,6 +16,8 @@ public:
 	//copies an intensity image
 
 	IntensityImageStudent(const int width, const int height);
+	//creates image of WxH size
+
 	~IntensityImageStudent();
 
 	void set(const int width, const int height);
