@@ -20,6 +20,9 @@ int main(int argc, char * argv[]) {
 	//ImageFactory::setImplementation(ImageFactory::DEFAULT);  
 	ImageFactory::setImplementation(ImageFactory::STUDENT);
 
+	std::cout << "DEBUGGYBUG -> HIT ENTER" << std::endl;
+	std::cin.ignore(); //program continues when you hit enter
+
 
 	ImageIO::debugFolder = "C:\\ti-software";
 	ImageIO::isInDebugMode = true; //If set to false the ImageIO class will skip any image save function calls

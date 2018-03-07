@@ -4,6 +4,7 @@
 #include "ImageFactory.h"
 #include "HereBeDragons.h"
 #include <time.h>
+#include <vector>
 
 IntensityImage * StudentPreProcessing::stepToIntensityImage(const RGBImage &image) const {
 	return nullptr;
@@ -20,18 +21,31 @@ IntensityImage * StudentPreProcessing::stepEdgeDetection(const IntensityImage &i
 	std::cout << (int)image.getPixel(1, 1) << '\n'; // dit mag
 	std::cout << "w="<< image.getWidth() << "  h=" << image.getHeight() <<'\n'; // dit mag
 
+	std::cout << "test" << std::endl;
+
 	auto width = image.getWidth();
 	auto heigth = image.getHeight();
 
+	/*
+	//creating a new empty image, trying to set on pixel on a random 4
 	auto beep = IntensityImage(width, heigth);
 	Intensity x = 4;
 	beep.setPixel(1, 1, x);
+	*/
 
-	/*for (int i = 0; i < width; i++) {
+	
+	//Dit stuk checkt de volledige afbeelding met GetPixel en zet het in een array
+	std::vector <int> v;
+
+	for (int i = 0; i < width; i++) {
 		for (int j = 0; j < heigth; j++) {
-			std::cout << (int)image.getPixel(i, j) << '\n';
+			v.push_back((int)image.getPixel(i, j));
 		}
-	}*/
+	}
+
+	for (auto i = v.begin(); i != v.end(); ++i)
+		std::cout << *i << ' ';
+	
 
 	std::cout << "width=" << width << std::endl;
 	std::cout << "height=" << heigth << std::endl;

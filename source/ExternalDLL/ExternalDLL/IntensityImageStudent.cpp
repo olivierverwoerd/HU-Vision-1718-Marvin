@@ -1,6 +1,7 @@
 #include "IntensityImageStudent.h"
 #include <iostream>
 #include <algorithm>
+#include <vector>
 
 IntensityImageStudent::IntensityImageStudent() : IntensityImage() {
 	//int throwError = 0, e = 1 / throwError; //Throws error without the need to include a header
@@ -15,36 +16,43 @@ IntensityImageStudent::IntensityImageStudent(const IntensityImageStudent &other)
 	//int throwError = 0, e = 1 / throwError;
 	//TODO: Create a copy from the other object
 
-	for (int i = 0; i < getWidth()*getHeight(); i++) {
-		temp[i] = other.temp[i];
-	}
+	//for (int i = 0; i < getWidth()*getHeight(); i++) {
+	//	temp[i] = other.temp[i];
+	//}
 }
 
 IntensityImageStudent::IntensityImageStudent(const int width, const int height) : IntensityImage(width, height),  temp(new Intensity[width*height]){
 	//int throwError = 0, e = 1 / throwError;
 	//TODO: Initialize pixel storage
+
+
 }
 
 IntensityImageStudent::~IntensityImageStudent() {
 	//int throwError = 0, e = 1 / throwError;
 	//TODO: delete allocated objects
-	delete[] temp;
+	
+	//copied from private
+	//delete[] temp;
 }
 
 void IntensityImageStudent::set(const int width, const int height) {
 	IntensityImage::set(width, height);
 	//int throwError = 0, e = 1 / throwError;
 	//TODO: resize or create a new pixel storage (Don't forget to delete the old storage)
-	delete[] temp;
-	this->temp = new Intensity[width*height];
+	
+	//copied from Private
+	//delete[] temp;
+	//this->temp = new Intensity[width*height];
 }
 
 void IntensityImageStudent::set(const IntensityImageStudent &other) {
 	IntensityImage::set(other.getWidth(), other.getHeight());
 	//int throwError = 0, e = 1 / throwError;
 	//TODO: resize or create a new pixel storage and copy the object (Don't forget to delete the old storage)
-	delete[] temp;
-	this->temp = new Intensity[getWidth()*getHeight()];
+	
+	//delete[] temp;
+	//this->temp = new Intensity[getWidth()*getHeight()];
 	for (int i = 0; i < getWidth()*getHeight(); i++) {
 		temp[i] = other.temp[i];
 	}
@@ -85,9 +93,7 @@ Intensity IntensityImageStudent::getPixel(int x, int y) const {
 	//int throwError = 0, e = 1 / throwError;
 	//TODO: no comment needed :)
 
-	//return COWSLIPSEAR[y*getWidth() + x]; 
-
-	//std::cout << "\ntest\n" << std::endl;
+	//std::cout << "\nSKITTLEGETPIXEL\n" << std::endl;
 	return temp[y*getWidth() + x];
 	//return 4;
 }
