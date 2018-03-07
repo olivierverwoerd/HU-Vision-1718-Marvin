@@ -16,16 +16,17 @@ IntensityImageStudent::IntensityImageStudent(const IntensityImageStudent &other)
 	//int throwError = 0, e = 1 / throwError;
 	//TODO: Create a copy from the other object
 
-	//for (int i = 0; i < getWidth()*getHeight(); i++) {
-	//	temp[i] = other.temp[i];
-	//}
+	for (int i = 0; i < getWidth()*getHeight(); i++) {
+		temp[i] = other.temp[i];
+	}
 }
 
 IntensityImageStudent::IntensityImageStudent(const int width, const int height) : IntensityImage(width, height),  temp(new Intensity[width*height]){
 	//int throwError = 0, e = 1 / throwError;
 	//TODO: Initialize pixel storage
-
-
+	for (int i = 0; i <= width*height; i++) {
+		temp[i] = 0;
+	}
 }
 
 IntensityImageStudent::~IntensityImageStudent() {
@@ -42,8 +43,8 @@ void IntensityImageStudent::set(const int width, const int height) {
 	//TODO: resize or create a new pixel storage (Don't forget to delete the old storage)
 	
 	//copied from Private
-	//delete[] temp;
-	//this->temp = new Intensity[width*height];
+	delete[] temp;
+	this->temp = new Intensity[width*height];
 }
 
 void IntensityImageStudent::set(const IntensityImageStudent &other) {
