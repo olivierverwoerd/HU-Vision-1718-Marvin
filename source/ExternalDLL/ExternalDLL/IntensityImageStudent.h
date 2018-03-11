@@ -24,7 +24,7 @@ public:
 	void set(const int width, const int height);
 	void set(const IntensityImageStudent &other);
 
-	void setPixel(int x, int y, Intensity pixel);
+	void setPixel(int x, int y, Intensity pixel) override;
 	void setPixel(int i, Intensity pixel);
 
 	Intensity getPixel(int x, int y) const;
