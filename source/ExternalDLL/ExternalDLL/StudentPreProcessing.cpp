@@ -20,23 +20,24 @@ IntensityImage * StudentPreProcessing::stepEdgeDetection(const IntensityImage &i
 	std::cout << "Starting EdgeDetection\n\n";
 	clock_t time = clock(); //start clock
 
+	//auto width = image.getWidth();
+	//auto height = image.getHeight();
+
 	std::cout << (int)image.getPixel(1, 1) << std::endl; // dit mag
 	std::cout << "w="<< image.getWidth() << "  h=" << image.getHeight() << std::endl; // dit mag
 
-
 	//trying to set (1,1) 1 waarde hoger
-	Intensity test = image.getPixel(1, 1) + 1;
-	std::cout << "test =" << (int)test << std::endl;
+	//Intensity test = image.getPixel(1, 1) + 1;
+	//std::cout << "test =" << (int)test << std::endl;
 	//&image.setPixel(1, 1, (Intensity)test);
 
-	IntensityImageStudent copy_of_image();
-	copy_of_image.setPixel(1, 1, test);
-
-	//auto width = image.getWidth();
-	//auto heigth = image.getHeight();
-
 	auto width = 5;
-	auto heigth = 5;
+	auto height = 5;
+
+	IntensityImage * copyOfImage = ImageFactory::newIntensityImage(width, height);
+	auto beep = copyOfImage->getPixel(1, 1);
+	std::cout << "beep:" << (int)beep << std::endl;
+	copyOfImage->setPixel(1, 1, 1);
 
 	/*
 	//creating a new empty image, trying to set on pixel on a random 4
@@ -50,8 +51,8 @@ IntensityImage * StudentPreProcessing::stepEdgeDetection(const IntensityImage &i
 	std::vector <int> v;
 
 	for (int i = 0; i < width; i++) {
-		for (int j = 0; j < heigth; j++) {
-			v.push_back((int)image.getPixel(i, j));
+		for (int j = 0; j < height; j++) {
+			v.push_back((int)copyOfImage->getPixel(i, j));
 		}
 	}
 
@@ -60,7 +61,7 @@ IntensityImage * StudentPreProcessing::stepEdgeDetection(const IntensityImage &i
 	
 	std::cout << "\n" << width << std::endl;
 	std::cout << "width=" << width << std::endl;
-	std::cout << "height=" << heigth << std::endl;
+	std::cout << "height=" << height << std::endl;
 
 
 	//IntensityImage new(image.getWidth(), image.getHeight());
