@@ -22,8 +22,10 @@ IntensityImage * StudentPreProcessing::stepEdgeDetection(const IntensityImage &i
 
 	//auto width = image.getWidth();
 	//auto height = image.getHeight();
-
-	std::cout << (int)image.getPixel(1, 1) << std::endl; // dit mag
+	std::cout << (int)image.getPixel(50, 50) << std::endl; // dit mag
+	std::cout << (int)image.getPixel(10, 50) << std::endl;
+	std::cout << (int)image.getPixel(32, 50) << std::endl;
+	std::cout << (int)image.getPixel(50, 5) << std::endl;
 	std::cout << "w="<< image.getWidth() << "  h=" << image.getHeight() << std::endl; // dit mag
 
 	//trying to set (1,1) 1 waarde hoger
@@ -37,7 +39,9 @@ IntensityImage * StudentPreProcessing::stepEdgeDetection(const IntensityImage &i
 	IntensityImage * copyOfImage = ImageFactory::newIntensityImage(width, height);
 	auto beep = copyOfImage->getPixel(1, 1);
 	std::cout << "beep:" << (int)beep << std::endl;
-	copyOfImage->setPixel(1, 1, 1);
+	copyOfImage->setPixel(1, 1, 2);
+	auto beep2 = copyOfImage->getPixel(1, 1);
+	std::cout << "beep2:" << (int)copyOfImage->getPixel(1, 1) << std::endl;
 
 	/*
 	//creating a new empty image, trying to set on pixel on a random 4
@@ -63,7 +67,6 @@ IntensityImage * StudentPreProcessing::stepEdgeDetection(const IntensityImage &i
 	std::cout << "width=" << width << std::endl;
 	std::cout << "height=" << height << std::endl;
 
-
 	//IntensityImage new(image.getWidth(), image.getHeight());
 
 	//image.setPixel(1,2, 'd');
@@ -85,11 +88,27 @@ IntensityImage * StudentPreProcessing::stepEdgeDetection(const IntensityImage &i
 IntensityImage * StudentPreProcessing::stepThresholding(const IntensityImage &image) const {
 	std::cout << "Starting Thresholding\n\n";
 	clock_t time = clock(); //start clock
+	int threshold = 80;
 	//wederom een nieuwe afbeeling maken in student
+	auto width = 5;
+	auto height = 5;
 
+	std::cout << (int)image.getPixel(32, 50) << std::endl;
+	IntensityImage * copyOfImage = ImageFactory::newIntensityImage(width, height);
+
+	for (int i = 0; i < width; i++) {
+		for (int j = 0; j < height; j++) {
+			if ((int)copyOfImage->getPixel(i, j) < threshold) {
+				copyOfImage->setPixel(i, j, 0); //zou niet de copy moeten pakken maar image maar de getpixel werkt daar nog niet...
+			}
+			else {
+				copyOfImage->setPixel(i, j, 255);
+			}
+		}
+	}
 
 
 	time = clock() - time;
 	std::cout << "Time spent Thresholding: " << time << " milliseconds \n";
-	return 0;
+	return copyOfImage;
 }

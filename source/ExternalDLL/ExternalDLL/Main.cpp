@@ -17,8 +17,8 @@ int main(int argc, char * argv[]) {
 
 	//No idea volgens mij dan toch op student en van RGB heb ik alle throwerror uitgecomment want daar werken we niet meer. Intensity get doet het wel
 	//Denk dat instensity image student er wel moet komen dan
-	//ImageFactory::setImplementation(ImageFactory::DEFAULT);  
-	ImageFactory::setImplementation(ImageFactory::STUDENT);
+	ImageFactory::setImplementation(ImageFactory::DEFAULT);  
+	//ImageFactory::setImplementation(ImageFactory::STUDENT); DEZE DUS NIET
 
 	std::cout << "DEBUGGYBUG -> HIT ENTER" << std::endl;
 	std::cin.ignore(); //program continues when you hit enter
@@ -76,7 +76,7 @@ bool executeSteps(DLLExecution * executor) {
 	}
 	ImageIO::saveIntensityImage(*executor->resultPreProcessingStep3, ImageIO::getDebugFileName("Pre-processing-3.png"));
 
-	if (!executor->executePreProcessingStep4(false)) { // deze moet naar true voor Thresholding 
+	if (!executor->executePreProcessingStep4(true)) { // deze moet naar true voor Thresholding 
 		std::cout << "\n\nPre-processing Thresholding failed!" << std::endl;
 		return false;
 	}
