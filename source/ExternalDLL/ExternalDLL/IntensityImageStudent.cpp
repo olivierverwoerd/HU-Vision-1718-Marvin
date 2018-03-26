@@ -10,7 +10,7 @@ IntensityImageStudent::IntensityImageStudent() : IntensityImage() {
 	std::cout << "IntensityImageStudent() called" << std::endl;
 }
 
-IntensityImageStudent::IntensityImageStudent(const IntensityImageStudent &other) : IntensityImage(other.getWidth(), other.getHeight()), temp(new Intensity[other.getWidth()*other.getHeight()]){
+IntensityImageStudent::IntensityImageStudent(const IntensityImageStudent &other) : IntensityImage(other.getWidth(), other.getHeight()), temp(new Intensity[getWidth()*getHeight()]){
 	//TODO: Create a copy from the other object
 	std::cout << "IntensityImageStudent(other) called" << std::endl;
 	for (int i = 0; i < getWidth()*getHeight(); i++) {
@@ -91,11 +91,12 @@ Intensity IntensityImageStudent::getPixel(int x, int y) const {
 	//std::cout << "GetPixel(int, int) called" << std::endl;
 
 	return temp[y*getWidth() + x];
+	//return 2;
 }
 
 Intensity IntensityImageStudent::getPixel(int i) const {
 	//TODO: see setPixel(int i, RGB pixel)
 	//std::cout << "GetPixel(int) called" << std::endl;
 
-	return 0;
+	return 1;
 }

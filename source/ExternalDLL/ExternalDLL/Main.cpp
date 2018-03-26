@@ -18,7 +18,11 @@ int main(int argc, char * argv[]) {
 	//No idea volgens mij dan toch op student en van RGB heb ik alle throwerror uitgecomment want daar werken we niet meer. Intensity get doet het wel
 	//Denk dat instensity image student er wel moet komen dan
 	ImageFactory::setImplementation(ImageFactory::DEFAULT);  
+<<<<<<< HEAD
 	//ImageFactory::setImplementation(ImageFactory::STUDENT);
+=======
+	//ImageFactory::setImplementation(ImageFactory::STUDENT); DEZE DUS NIET
+>>>>>>> d2d5d730e015a4ccc77e160a4047024a492f31dc
 
 	std::cout << "DEBUGGYBUG -> HIT ENTER" << std::endl;
 	std::cin.ignore(); //program continues when you hit enter
