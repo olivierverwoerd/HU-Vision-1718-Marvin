@@ -20,7 +20,7 @@ IntensityImageStudent::IntensityImageStudent(const IntensityImageStudent &other)
 
 IntensityImageStudent::IntensityImageStudent(const int width, const int height) : IntensityImage(width, height),  temp(new Intensity[width*height]){
 	//TODO: Initialize pixel storage
-	std::cout << "IntensityImageStudent(width, height) called" << std::endl;
+	//std::cout << "IntensityImageStudent(width, height) called" << std::endl;
 
 	for (int i = 0; i <= width*height; i++) {
 		temp[i] = 0;
@@ -36,7 +36,7 @@ IntensityImageStudent::~IntensityImageStudent() {
 
 void IntensityImageStudent::set(const int width, const int height) {
 	IntensityImage::set(width, height);
-	std::cout << "Set(width, height) called" << std::endl;
+	//std::cout << "Set(width, height) called" << std::endl;
 	//TODO: resize or create a new pixel storage (Don't forget to delete the old storage)
 	
 	//copied from Private
@@ -45,7 +45,7 @@ void IntensityImageStudent::set(const int width, const int height) {
 }
 
 void IntensityImageStudent::set(const IntensityImageStudent &other) {
-	std::cout << "Set(const IntensityImageStudent called" << std::endl;
+	//std::cout << "Set(const IntensityImageStudent called" << std::endl;
 	IntensityImage::set(other.getWidth(), other.getHeight());
 	//TODO: resize or create a new pixel storage and copy the object (Don't forget to delete the old storage)
 	
@@ -62,7 +62,7 @@ void IntensityImageStudent::setPixel(int x, int y, Intensity pixel) {
 }
 
 void IntensityImageStudent::setPixel(int i, Intensity pixel) {
-	std::cout << "SetPixel(int, Intensity) called" << std::endl;
+	//std::cout << "SetPixel(int, Intensity) called" << std::endl;
 	/*
 	* TODO: set pixel i in "Row-Major Order"
 	*
@@ -95,7 +95,7 @@ Intensity IntensityImageStudent::getPixel(int x, int y) const {
 
 Intensity IntensityImageStudent::getPixel(int i) const {
 	//TODO: see setPixel(int i, RGB pixel)
-	std::cout << "GetPixel(int) called" << std::endl;
+	//std::cout << "GetPixel(int) called" << std::endl;
 
 	return 0;
 }
