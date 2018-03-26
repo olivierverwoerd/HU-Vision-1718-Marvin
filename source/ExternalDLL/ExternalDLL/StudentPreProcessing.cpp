@@ -77,7 +77,16 @@ IntensityImage * StudentPreProcessing::stepThresholding(const IntensityImage &im
 	std::cout << (int)image.getPixel(40, 65) << std::endl; // sample of the eye
 	std::cout << (int)image.getPixel(40, 75) << std::endl;
 
-
+	for (int i = 0; i < width; i++) { //loop to copy and edit values. NOT DYNAMICLY YET
+		for (int j = 0; j < height; j++) {
+			if ((int)copyOfImage->getPixel(i, j) < threshold) {
+				copyOfImage->setPixel(i, j, 0); //zou niet de copy moeten pakken maar image maar de getpixel werkt daar nog niet...
+			}
+			else {
+				copyOfImage->setPixel(i, j, 255);
+			}
+		}
+	}
 	time = clock() - time;
 	std::cout << "Time spent Thresholding: " << time << " milliseconds \n";
 	return copyOfImage;
