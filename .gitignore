@@ -3,4 +3,3 @@
 *.opendb
 *.VC.db
 source/ExternalDLL/ExternalDLL2015.VC.db
-*.test
