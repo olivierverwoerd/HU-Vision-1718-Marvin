@@ -8,7 +8,7 @@
 
 #include "IntensityImageStudent.h"
 
-void apply_gaussian(IntensityImage &copyOfImage, int x, int y) {
+void apply_gaussian(IntensityImage &newImage, int x, int y, IntensityImage &copyOfImage) {
 	int gaussian[5][5] = { {	1, 2, 3, 2, 1	},
 							{	2, 7, 11,7, 2	},
 							{	3, 11,17,11,3	},
@@ -27,12 +27,13 @@ void apply_gaussian(IntensityImage &copyOfImage, int x, int y) {
 	}
 
 	int pixel = sum * scaling;
-	copyOfImage.setPixel(x + 2, y + 2, int(pixel));
+	newImage.setPixel(x + 2, y + 2, int(pixel));
 
 }
 
-void apply_laplacian(IntensityImage &copyOfImage, int x, int y) {
+void apply_laplacian(IntensityImage &newImage, int x, int y, IntensityImage &copyOfImage) {
 	//std::cout << "Starting Apply_laplacian\n\n";
+	
 	int laplacian[9][9] = { { 0, 0, 0, -1, -1, -1, 0, 0, 0 },
 							{ 0, 0, 0, -1, -1, -1, 0, 0, 0 },
 							{ 0, 0, 0, -1, -1, -1, 0, 0, 0 },
@@ -43,6 +44,18 @@ void apply_laplacian(IntensityImage &copyOfImage, int x, int y) {
 							{ 0, 0, 0, -1, -1, -1, 0, 0, 0 },
 							{ 0, 0, 0, -1, -1, -1, 0, 0, 0 } };
 	
+	/*
+	int laplacian[9][9] = { { 1, 1, 1, 2, 2, 2, 1, 1, 1 },
+							{ 1, 1, 1, 2, 2, 2, 1, 1, 1 },
+							{ 1, 1, 1, 2, 2, 2, 1, 1, 1 },
+							{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+							{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+							{ 0, 0, 0, 0, 0, 0, 0, 0, 0},
+							{ -1, -1, -1, -2, -2, -2, -1, -1, -1 },
+							{ -1, -1, -1, -2, -2, -2, -1, -1, -1 },
+							{ -1, -1, -1, -2, -2, -2, -1, -1, -1 }, };
+	
+	*/
 	double sum = 0;
 
 	for (int i = 0; i <= 8; i++) {
@@ -53,31 +66,46 @@ void apply_laplacian(IntensityImage &copyOfImage, int x, int y) {
 		}
 	}
 
-	sum = int(sum);
-	if (sum > -5 && sum < 5 ) {
-		copyOfImage.setPixel(x + 4, y + 4, 127);
+	sum = int(sum)/8;
+	if (sum < -20) {
+		if (sum < -255){
+			newImage.setPixel(x + 4, y + 4, 0);
+		}
+		else {
+			newImage.setPixel(x + 4, y + 4, sum);
+		}
 	} 
-
+	else if (sum > 20) {
+		if (sum > 255) {
+			newImage.setPixel(x + 4, y + 4, 255);
+		}
+		else {
+			newImage.setPixel(x + 4, y + 4, sum);
+		}
+	}
+	else{
+		newImage.setPixel(x + 4, y + 4, 127);
+	}
 
 }
 
-void filter(IntensityImage &copyOfImage) {
-	int width = copyOfImage.getWidth();
-	int height = copyOfImage.getHeight();
+void filter(IntensityImage &newImage, IntensityImage &copyOfImage) {
+	int width = newImage.getWidth();
+	int height = newImage.getHeight();
 
 	for (int i = 0; i < width - 2; i++) {
 		for (int j = 0; j < height - 2; j++) {
 			//for every pixel -2x rand
-			apply_gaussian(copyOfImage, i, j);
+			apply_gaussian(newImage, i, j, copyOfImage);
 		}
 	}
 
-	//for (int i = 0; i < width - 4; i++) {
-	//	for (int j = 0; j < height - 4; j++) {
-	//		//for every pixel -2x rand
-	//		apply_laplacian(copyOfImage, i, j);
-	//	}
-	//}
+	for (int i = 0; i < width - 4; i++) {
+		for (int j = 0; j < height - 4; j++) {
+			//for every pixel -2x rand
+			apply_laplacian(newImage, i, j, copyOfImage);
+		}
+	}
 }
 
 IntensityImage * StudentPreProcessing::stepToIntensityImage(const RGBImage &image) const {
@@ -101,12 +129,13 @@ IntensityImage * StudentPreProcessing::stepEdgeDetection(const IntensityImage &i
 	//auto width = 5; //for debug
 	//auto height = 5;
 
+	IntensityImage * newImage = ImageFactory::newIntensityImage(image);
 	IntensityImage * copyOfImage = ImageFactory::newIntensityImage(image);
-
 	//Copy inhoud van &image naar CopyOfImage
 	for (int i = 0; i < width; i++) {
 		for (int j = 0; j < height; j++) {
 			auto TMP = image.getPixel(i, j);
+			newImage->setPixel(i, j, TMP);
 			copyOfImage->setPixel(i, j, TMP);
 		}
 	}
@@ -115,7 +144,7 @@ IntensityImage * StudentPreProcessing::stepEdgeDetection(const IntensityImage &i
 	//apply_laplacian(*copyOfImage);
 
 	//------------------------------------------------------Filter is de manier om hem uit te zetten. sorry
-	//filter(*copyOfImage); 
+	filter(*newImage, *copyOfImage); 
 	
 	//Dit stuk checkt de volledige NIEUWE afbeelding met GetPixel en zet het in een array
 	/*std::vector <int> v;
@@ -133,13 +162,13 @@ IntensityImage * StudentPreProcessing::stepEdgeDetection(const IntensityImage &i
 
 	time = clock() - time;
 	std::cout << "\nTime spent EdgeDetection: " << time << " milliseconds \n";
-	return copyOfImage;
+	return newImage;
 }
 
 IntensityImage * StudentPreProcessing::stepThresholding(const IntensityImage &image) const {
 	std::cout << "\n-------------------------------------------\nStarting Thresholding\n\n";
 	clock_t time = clock(); //start clock
-	int threshold = 120;
+	int threshold = 126;
 	//wederom een nieuwe afbeeling maken in student
 
 	std::cout << (int)image.getPixel(1, 1) << std::endl; // dit mag
@@ -167,7 +196,10 @@ IntensityImage * StudentPreProcessing::stepThresholding(const IntensityImage &im
 				max = (int)TMP;
 			}
 			avg += TMP;
-			if ((int)TMP < threshold) {
+			if ((int)TMP == 127) {
+				copyOfImage->setPixel(i, j, 255);
+			}
+			else if ((int)TMP < threshold) {
 				copyOfImage->setPixel(i, j, 0);
 			}
 			else {
