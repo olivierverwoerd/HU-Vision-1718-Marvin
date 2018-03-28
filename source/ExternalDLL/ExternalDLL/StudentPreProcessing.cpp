@@ -72,12 +72,12 @@ void filter(IntensityImage &copyOfImage) {
 		}
 	}
 
-	for (int i = 0; i < width - 4; i++) {
-		for (int j = 0; j < height - 4; j++) {
-			//for every pixel -2x rand
-			apply_laplacian(copyOfImage, i, j);
-		}
-	}
+	//for (int i = 0; i < width - 4; i++) {
+	//	for (int j = 0; j < height - 4; j++) {
+	//		//for every pixel -2x rand
+	//		apply_laplacian(copyOfImage, i, j);
+	//	}
+	//}
 }
 
 IntensityImage * StudentPreProcessing::stepToIntensityImage(const RGBImage &image) const {
@@ -89,7 +89,7 @@ IntensityImage * StudentPreProcessing::stepScaleImage(const IntensityImage &imag
 }
 
 IntensityImage * StudentPreProcessing::stepEdgeDetection(const IntensityImage &image) const {
-	std::cout << "Starting EdgeDetection\n\n";
+	std::cout << "-------------------------------------------\nStarting EdgeDetection\n\n";
 	clock_t time = clock(); //start clock
 
 	std::cout << (int)image.getPixel(1, 1) << std::endl; // dit mag
@@ -113,7 +113,9 @@ IntensityImage * StudentPreProcessing::stepEdgeDetection(const IntensityImage &i
 
 	//here starts the action!
 	//apply_laplacian(*copyOfImage);
-	filter(*copyOfImage);
+
+	//------------------------------------------------------Filter is de manier om hem uit te zetten. sorry
+	//filter(*copyOfImage); 
 	
 	//Dit stuk checkt de volledige NIEUWE afbeelding met GetPixel en zet het in een array
 	/*std::vector <int> v;
@@ -135,32 +137,47 @@ IntensityImage * StudentPreProcessing::stepEdgeDetection(const IntensityImage &i
 }
 
 IntensityImage * StudentPreProcessing::stepThresholding(const IntensityImage &image) const {
-	std::cout << "Starting Thresholding\n\n";
+	std::cout << "\n-------------------------------------------\nStarting Thresholding\n\n";
 	clock_t time = clock(); //start clock
-	int threshold = 80;
+	int threshold = 120;
 	//wederom een nieuwe afbeeling maken in student
-	auto width = image.getWidth();
+
+	std::cout << (int)image.getPixel(1, 1) << std::endl; // dit mag
+	std::cout << "w=" << image.getWidth() << "  h=" << image.getHeight() << std::endl; // dit mag
+
+	auto width = image.getWidth(); //select for accurate width
 	auto height = image.getHeight();
 
-	IntensityImage * copyOfImage = ImageFactory::newIntensityImage(width, height);
-	std::cout << (int)image.getWidth() << std::endl; // sample of the eye
-	std::cout << (int)image.getHeight() << std::endl;
+	//auto width = 5; //for debug
+	//auto height = 5;
 
-	std::cout << (int)image.getPixel(35, 65) << std::endl; // sample of the eye
-	std::cout << (int)image.getPixel(50, 75) << std::endl;
-	std::cout << (int)image.getPixel(40, 65) << std::endl; // sample of the eye
-	std::cout << (int)image.getPixel(40, 75) << std::endl;
+	IntensityImage * copyOfImage = ImageFactory::newIntensityImage(image);
 
-	for (int i = 0; i < width; i++) { //loop to copy and edit values. NOT DYNAMICLY YET
+	auto min = 255;
+	auto max = 0;
+	auto avg = 0;
+	//Copy inhoud van &image naar CopyOfImage
+	for (int i = 0; i < width; i++) {
 		for (int j = 0; j < height; j++) {
-			if ((int)copyOfImage->getPixel(i, j) < threshold) {
-				copyOfImage->setPixel(i, j, 0); //zou niet de copy moeten pakken maar image maar de getpixel werkt daar nog niet...
+			auto TMP = image.getPixel(i, j);
+			if (TMP < min) {
+				min = (int)TMP;
+			}
+			if (TMP > max) {
+				max = (int)TMP;
+			}
+			avg += TMP;
+			if ((int)TMP < threshold) {
+				copyOfImage->setPixel(i, j, 0);
 			}
 			else {
 				copyOfImage->setPixel(i, j, 255);
 			}
 		}
 	}
+	std::cout << max << std::endl; // dit mag
+	std::cout << min << std::endl; // dit mag
+	std::cout << avg/(height*width)<< std::endl; // dit mag
 	time = clock() - time;
 	std::cout << "Time spent Thresholding: " << time << " milliseconds \n";
 	return copyOfImage;

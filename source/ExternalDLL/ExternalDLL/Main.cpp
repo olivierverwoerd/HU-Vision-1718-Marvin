@@ -71,7 +71,7 @@ bool executeSteps(DLLExecution * executor) {
 	}
 	ImageIO::saveIntensityImage(*executor->resultPreProcessingStep3, ImageIO::getDebugFileName("Pre-processing-3.png"));
 
-	if (!executor->executePreProcessingStep4(false)) { // deze moet naar true voor Thresholding 
+	if (!executor->executePreProcessingStep4(true)) { // deze moet naar true voor Thresholding 
 		std::cout << "\n\nPre-processing Thresholding failed!" << std::endl;
 		return false;
 	}
