@@ -9,6 +9,7 @@
 #include "HereBeDragons.h"
 #include "ImageFactory.h"
 #include "DLLExecution.h"
+#include <time.h>
 
 void drawFeatureDebugImage(IntensityImage &image, FeatureMap &features);
 bool executeSteps(DLLExecution * executor);
@@ -22,28 +23,42 @@ int main(int argc, char * argv[]) {
 	ImageIO::debugFolder = "C:\\ti-software";
 	ImageIO::isInDebugMode = true; //If set to false the ImageIO class will skip any image save function calls
 
-
-	RGBImage * input = ImageFactory::newRGBImage();
-	if (!ImageIO::loadImage("C:\\ti-software\\female-3.png", *input)) {
-		std::cout << "Image could not be loaded!" << std::endl;
-		system("pause");
-		return 0;
-	}
-
-
-	ImageIO::saveRGBImage(*input, ImageIO::getDebugFileName("debug.png"));
-
-	DLLExecution * executor = new DLLExecution(input);
-
-	if (executeSteps(executor)) {
-		std::cout << "Face recognition successful!" << std::endl;
-		std::cout << "Facial parameters: " << std::endl;
-		for (int i = 0; i < 16; i++) {
-			std::cout << (i+1) << ": " << executor->facialParameters[i] << std::endl;
+	int succescounter = 0;
+	std::vector<std::string> v = {
+		"C:\\ti-software\\female-1.png",
+		"C:\\ti-software\\female-2.png",
+		"C:\\ti-software\\female-3.png",
+		"C:\\ti-software\\male-1.png",
+		"C:\\ti-software\\male-2.png",
+		"C:\\ti-software\\male-3.png",
+		"C:\\ti-software\\child-1.png"};
+	clock_t time = clock(); //start clock
+	for (int counter = 0; counter < 7; counter++) {
+		RGBImage * input = ImageFactory::newRGBImage();
+		if (!ImageIO::loadImage(v[counter], *input)) {
+			std::cout << "Image could not be loaded!" << std::endl;
+			system("pause");
+			return 0;
 		}
+
+
+		ImageIO::saveRGBImage(*input, ImageIO::getDebugFileName("debug.png"));
+
+		DLLExecution * executor = new DLLExecution(input);
+
+		if (executeSteps(executor)) {
+			std::cout << "Face recognition successful!" << std::endl;
+			std::cout << "Facial parameters: " << std::endl;
+			for (int i = 0; i < 16; i++) {
+				std::cout << (i + 1) << ": " << executor->facialParameters[i] << std::endl;
+			}
+			succescounter++;
+		}
+
+		delete executor;
 	}
-	
-	delete executor;
+	time = clock() - time;
+	std::cout << "\n\nSUCCES = " << succescounter << "/7: Succesrate = " << succescounter*100/7 << "% Time spend = "<< time << "\n" <<std::endl;
 	system("pause");
 	return 1;
 	
