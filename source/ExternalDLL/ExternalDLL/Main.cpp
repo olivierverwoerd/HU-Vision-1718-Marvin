@@ -31,9 +31,10 @@ int main(int argc, char * argv[]) {
 		"C:\\ti-software\\male-1.png",
 		"C:\\ti-software\\male-2.png",
 		"C:\\ti-software\\male-3.png",
-		"C:\\ti-software\\child-1.png"};
+		"C:\\ti-software\\child-1.png",
+		"C:\\ti-software\\female-4.png"};
 	clock_t time = clock(); //start clock
-	for (int counter = 0; counter < 7; counter++) {
+	for (int counter = 0; counter < 6; counter++) {
 		RGBImage * input = ImageFactory::newRGBImage();
 		if (!ImageIO::loadImage(v[counter], *input)) {
 			std::cout << "Image could not be loaded!" << std::endl;

@@ -8,6 +8,61 @@
 
 #include "IntensityImageStudent.h"
 
+void apply_LOG(IntensityImage &newImage, int x, int y, IntensityImage &copyOfImage) {
+	int laplacian[9][9] = { { 0, 1, 1, 2, 2, 2, 1, 1, 0 },
+							{ 1, 2, 4, 5, 5, 5, 4, 2, 1 },
+							{ 1, 4, 5, 3, 0, 3, 5, 4, 1 },
+							{ 2, 5, 3,-12,-24,-12, 3, 5, 2 },
+							{ 2, 5, 0,-24,-40,-24, 0, 5, 2 },
+							{ 2, 5, 3,-12,-24,-12, 3, 5, 2 },
+							{ 1, 4, 5, 3, 0, 3, 5, 4, 1 },
+							{ 1, 2, 4, 5, 5, 5, 4, 2, 1 },
+							{ 0, 1, 1, 2, 2, 2, 1, 1, 0 } };
+
+	double sum = 0;
+
+	for (int i = 0; i <= 8; i++) {
+		for (int j = 0; j <= 8; j++) {
+			auto temp = int(copyOfImage.getPixel(x + i, y + j));
+			temp *= laplacian[i][j];
+			sum += temp;
+		}
+	}
+
+	//std::cout << "SUM:" << sum << std::endl;
+	//newImage.setPixel(x + 4, y + 4, int(sum));
+	//int min = -255;
+	//int max = 255;
+	/sum = (sum - min) / (sum - max);
+
+	if (sum < 600) {
+		newImage.setPixel(x + 4, y + 4, 255);
+	}
+	else  {
+		newImage.setPixel(x + 4, y + 4, 0);
+	}
+
+	/*if (sum < -20) {
+		if (sum < -255) {
+			newImage.setPixel(x + 4, y + 4, 0);
+		}
+		else {
+			newImage.setPixel(x + 4, y + 4, sum);
+		}
+	}
+	else if (sum > 20) {
+		if (sum > 255) {
+			newImage.setPixel(x + 4, y + 4, 255);
+		}
+		else {
+			newImage.setPixel(x + 4, y + 4, sum);
+		}
+	}
+	else {
+		newImage.setPixel(x + 4, y + 4, 127);
+	}*/
+}
+
 void apply_gaussian(IntensityImage &newImage, int x, int y, IntensityImage &copyOfImage) {
 	int gaussian[5][5] = { {	1, 2, 3, 2, 1	},
 							{	2, 7, 11,7, 2	},
@@ -44,18 +99,6 @@ void apply_laplacian(IntensityImage &newImage, int x, int y, IntensityImage &cop
 							{ 0, 0, 0, -1, -1, -1, 0, 0, 0 },
 							{ 0, 0, 0, -1, -1, -1, 0, 0, 0 } };
 	
-	/*
-	int laplacian[9][9] = { { 1, 1, 1, 2, 2, 2, 1, 1, 1 },
-							{ 1, 1, 1, 2, 2, 2, 1, 1, 1 },
-							{ 1, 1, 1, 2, 2, 2, 1, 1, 1 },
-							{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-							{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-							{ 0, 0, 0, 0, 0, 0, 0, 0, 0},
-							{ -1, -1, -1, -2, -2, -2, -1, -1, -1 },
-							{ -1, -1, -1, -2, -2, -2, -1, -1, -1 },
-							{ -1, -1, -1, -2, -2, -2, -1, -1, -1 }, };
-	
-	*/
 	double sum = 0;
 
 	for (int i = 0; i <= 8; i++) {
@@ -92,18 +135,26 @@ void apply_laplacian(IntensityImage &newImage, int x, int y, IntensityImage &cop
 void filter(IntensityImage &newImage, IntensityImage &copyOfImage) {
 	int width = newImage.getWidth();
 	int height = newImage.getHeight();
-
-	for (int i = 0; i < width - 2; i++) {
+	
+	/*for (int i = 0; i < width - 2; i++) {
 		for (int j = 0; j < height - 2; j++) {
 			//for every pixel -2x rand
 			apply_gaussian(newImage, i, j, copyOfImage);
 		}
 	}
-
+	
 	for (int i = 0; i < width - 4; i++) {
 		for (int j = 0; j < height - 4; j++) {
 			//for every pixel -2x rand
 			apply_laplacian(newImage, i, j, copyOfImage);
+		}
+	}*/
+
+	//LoG filter
+	for (int i = 0; i < width - 4; i++) {
+		for (int j = 0; j < height - 4; j++) {
+			//for every pixel -2x rand
+			apply_LOG(newImage, i, j, copyOfImage);
 		}
 	}
 }
@@ -151,10 +202,10 @@ IntensityImage * StudentPreProcessing::stepEdgeDetection(const IntensityImage &i
 
 	for (int i = 0; i < width; i++) { //set to width
 		for (int j = 0; j < height; j++) { //set to height
-			v.push_back((int)copyOfImage->getPixel(i, j));
+			v.push_back((int)newImage->getPixel(i, j));
 		}
 	}
-
+	
 	//print width, mostly debug purpose
 	for (auto i = v.begin(); i != v.end(); ++i)
 		std::cout << *i << ' ';
