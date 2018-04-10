@@ -9,6 +9,7 @@
 #include "IntensityImageStudent.h"
 
 void apply_LOG(IntensityImage &newImage, int x, int y, IntensityImage &copyOfImage) {
+	/*
 	int laplacian[9][9] = { { 0, 1, 1, 2, 2, 2, 1, 1, 0 },
 							{ 1, 2, 4, 5, 5, 5, 4, 2, 1 },
 							{ 1, 4, 5, 3, 0, 3, 5, 4, 1 },
@@ -18,11 +19,18 @@ void apply_LOG(IntensityImage &newImage, int x, int y, IntensityImage &copyOfIma
 							{ 1, 4, 5, 3, 0, 3, 5, 4, 1 },
 							{ 1, 2, 4, 5, 5, 5, 4, 2, 1 },
 							{ 0, 1, 1, 2, 2, 2, 1, 1, 0 } };
-
+	*/
+	int laplacian[7][7] = { { 0, 0, -1, -2, -1, 0, 0, },
+							{ 0, -2, -3, -4, -3, -2, 0, },
+							{ -1, -3, 1, 9, 1, -3, -1, },
+							{ -2. -4, 9, 24, 9, -4, -1 },
+							{ -1, -3, 1, 9, 1, -3, -1, },
+							{ 0, -2, -3, -4, -3, -2, 0, },
+							{ 0, 0, -1, -2, -1, 0, 0, } };
 	double sum = 0;
 
-	for (int i = 0; i <= 8; i++) {
-		for (int j = 0; j <= 8; j++) {
+	for (int i = 0; i < 7; i++) {
+		for (int j = 0; j < 7; j++) {
 			auto temp = int(copyOfImage.getPixel(x + i, y + j));
 			temp *= laplacian[i][j];
 			sum += temp;
@@ -33,13 +41,17 @@ void apply_LOG(IntensityImage &newImage, int x, int y, IntensityImage &copyOfIma
 	//newImage.setPixel(x + 4, y + 4, int(sum));
 	//int min = -255;
 	//int max = 255;
-	/sum = (sum - min) / (sum - max);
+	//std::cout << sum << "\n";
+	sum = sum / 50 + 127;
 
-	if (sum < 600) {
+	if (sum > 256) {
 		newImage.setPixel(x + 4, y + 4, 255);
 	}
-	else  {
+	else if (sum < 0) {
 		newImage.setPixel(x + 4, y + 4, 0);
+	}
+	else  {
+		newImage.setPixel(x + 4, y + 4, sum);
 	}
 
 	/*if (sum < -20) {
@@ -136,13 +148,13 @@ void filter(IntensityImage &newImage, IntensityImage &copyOfImage) {
 	int width = newImage.getWidth();
 	int height = newImage.getHeight();
 	
-	/*for (int i = 0; i < width - 2; i++) {
+	for (int i = 0; i < width - 2; i++) {
 		for (int j = 0; j < height - 2; j++) {
 			//for every pixel -2x rand
 			apply_gaussian(newImage, i, j, copyOfImage);
 		}
 	}
-	
+	/*
 	for (int i = 0; i < width - 4; i++) {
 		for (int j = 0; j < height - 4; j++) {
 			//for every pixel -2x rand
@@ -219,7 +231,7 @@ IntensityImage * StudentPreProcessing::stepEdgeDetection(const IntensityImage &i
 IntensityImage * StudentPreProcessing::stepThresholding(const IntensityImage &image) const {
 	std::cout << "\n-------------------------------------------\nStarting Thresholding\n\n";
 	clock_t time = clock(); //start clock
-	int threshold = 126;
+	int threshold = 120;
 	//wederom een nieuwe afbeeling maken in student
 
 	std::cout << (int)image.getPixel(1, 1) << std::endl; // dit mag
