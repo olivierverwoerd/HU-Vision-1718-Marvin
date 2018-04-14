@@ -34,7 +34,7 @@ int main(int argc, char * argv[]) {
 		"C:\\ti-software\\child-1.png",
 		"C:\\ti-software\\female-4.png"};
 	clock_t time = clock(); //start clock
-	for (int counter = 0; counter < 7; counter++) {
+	for (int counter = 1; counter < 2; counter++) {
 		RGBImage * input = ImageFactory::newRGBImage();
 		if (!ImageIO::loadImage(v[counter], *input)) {
 			std::cout << "Image could not be loaded!" << std::endl;
@@ -43,23 +43,25 @@ int main(int argc, char * argv[]) {
 		}
 
 
-		ImageIO::saveRGBImage(*input, ImageIO::getDebugFileName("debug.png"));
+		for (int counter = 70; counter < 200; counter++) {
+			ImageIO::saveRGBImage(*input, ImageIO::getDebugFileName("debug.png"));
 
-		DLLExecution * executor = new DLLExecution(input);
+			DLLExecution * executor = new DLLExecution(input);
 
-		if (executeSteps(executor)) {
-			std::cout << "Face recognition successful!" << std::endl;
-			std::cout << "Facial parameters: " << std::endl;
-			for (int i = 0; i < 16; i++) {
-				std::cout << (i + 1) << ": " << executor->facialParameters[i] << std::endl;
+			if (executeSteps(executor)) {
+				std::cout << "Face recognition successful!" << std::endl;
+				std::cout << "Facial parameters: " << std::endl;
+				for (int i = 0; i < 16; i++) {
+					std::cout << (i + 1) << ": " << executor->facialParameters[i] << std::endl;
+				}
+				succescounter++;
 			}
-			succescounter++;
-		}
 
-		delete executor;
+			delete executor;
+		}
 	}
 	time = clock() - time;
-	std::cout << "\n\nSUCCES = " << succescounter << "/7: Succesrate = " << succescounter*100/7 << "% Time spend = "<< time << "\n" <<std::endl;
+	std::cout << "\n\nSUCCES = " << succescounter <<  "  Time spend = "<< time << "\n" <<std::endl;
 	system("pause");
 	return 1;
 	

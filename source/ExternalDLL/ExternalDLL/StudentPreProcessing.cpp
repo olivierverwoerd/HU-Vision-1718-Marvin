@@ -7,7 +7,7 @@
 #include <vector>
 
 #include "IntensityImageStudent.h"
-
+int tht = 70;
 void apply_LOG(IntensityImage &newImage, int x, int y, IntensityImage &copyOfImage) {
 	/*
 	int laplacian[9][9] = { { 0, 1, 1, 2, 2, 2, 1, 1, 0 },
@@ -231,9 +231,9 @@ IntensityImage * StudentPreProcessing::stepEdgeDetection(const IntensityImage &i
 IntensityImage * StudentPreProcessing::stepThresholding(const IntensityImage &image) const {
 	std::cout << "\n-------------------------------------------\nStarting Thresholding\n\n";
 	clock_t time = clock(); //start clock
-	int threshold = 140;
+	int threshold = tht;
 	//wederom een nieuwe afbeeling maken in student
-
+	std::cout << "t=" << tht << std::endl; // dit mag
 	std::cout << (int)image.getPixel(1, 1) << std::endl; // dit mag
 	std::cout << "w=" << image.getWidth() << "  h=" << image.getHeight() << std::endl; // dit mag
 
@@ -262,7 +262,7 @@ IntensityImage * StudentPreProcessing::stepThresholding(const IntensityImage &im
 		}
 	}
 
-	if (threshold == 127) { // voorkomt error als berekende waarde exact de middelse grijswaarde is om edge detection problemen te voorkomen
+	if (threshold == 127 || threshold == 111) { // voorkomt error als berekende waarde exact de middelse grijswaarde is om edge detection problemen te voorkomen
 		threshold = 126;
 	}
 	for (int i = 0; i < width; i++) { //berekent de zwart-witwaardes op basis van de threshold
@@ -282,6 +282,7 @@ IntensityImage * StudentPreProcessing::stepThresholding(const IntensityImage &im
 	std::cout << max << std::endl; // dit mag
 	std::cout << min << std::endl; // dit mag
 	time = clock() - time;
+	tht++;
 	std::cout << "Time spent Thresholding: " << time << " milliseconds \n";
 	return copyOfImage;
 }
