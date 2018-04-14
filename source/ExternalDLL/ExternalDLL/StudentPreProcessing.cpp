@@ -231,7 +231,7 @@ IntensityImage * StudentPreProcessing::stepEdgeDetection(const IntensityImage &i
 IntensityImage * StudentPreProcessing::stepThresholding(const IntensityImage &image) const {
 	std::cout << "\n-------------------------------------------\nStarting Thresholding\n\n";
 	clock_t time = clock(); //start clock
-	int threshold = 140;
+	int threshold;
 	//wederom een nieuwe afbeeling maken in student
 
 	std::cout << (int)image.getPixel(1, 1) << std::endl; // dit mag
@@ -261,7 +261,14 @@ IntensityImage * StudentPreProcessing::stepThresholding(const IntensityImage &im
 			avg += TMP;
 		}
 	}
-
+	int mid = (min + max) / 2;
+	avg = avg / 100;
+	if (min < 50 || mid > 170) {
+		threshold = avg - (max - min) / 5 - (min / 3.5) - 5;
+	}
+	else {
+		threshold = 125 + min / 100;
+	}
 	if (threshold == 127) { // voorkomt error als berekende waarde exact de middelse grijswaarde is om edge detection problemen te voorkomen
 		threshold = 126;
 	}
@@ -281,6 +288,8 @@ IntensityImage * StudentPreProcessing::stepThresholding(const IntensityImage &im
 	}
 	std::cout << max << std::endl; // dit mag
 	std::cout << min << std::endl; // dit mag
+	std::cout << threshold << std::endl; // dit mag
+	std::cout << avg << std::endl; // dit mag
 	time = clock() - time;
 	std::cout << "Time spent Thresholding: " << time << " milliseconds \n";
 	return copyOfImage;
