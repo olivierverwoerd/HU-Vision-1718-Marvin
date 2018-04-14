@@ -231,7 +231,7 @@ IntensityImage * StudentPreProcessing::stepEdgeDetection(const IntensityImage &i
 IntensityImage * StudentPreProcessing::stepThresholding(const IntensityImage &image) const {
 	std::cout << "\n-------------------------------------------\nStarting Thresholding\n\n";
 	clock_t time = clock(); //start clock
-	int threshold = 120;
+	int threshold = 140;
 	//wederom een nieuwe afbeeling maken in student
 
 	std::cout << (int)image.getPixel(1, 1) << std::endl; // dit mag
@@ -249,30 +249,38 @@ IntensityImage * StudentPreProcessing::stepThresholding(const IntensityImage &im
 	auto max = 0;
 	auto avg = 0;
 	//Copy inhoud van &image naar CopyOfImage
-	for (int i = 0; i < width; i++) {
-		for (int j = 0; j < height; j++) {
+	for (int i = 0; i < width; i += width/10) {
+		for (int j = 0; j < height; j += height/10) {
 			auto TMP = image.getPixel(i, j);
 			if (TMP < min) {
-				min = (int)TMP;
+			min = (int)TMP;
 			}
 			if (TMP > max) {
-				max = (int)TMP;
+			max = (int)TMP;
 			}
 			avg += TMP;
-			if ((int)TMP == 127) {
-				copyOfImage->setPixel(i, j, 255);
+		}
+	}
+
+	if (threshold == 127) { // voorkomt error als berekende waarde exact de middelse grijswaarde is om edge detection problemen te voorkomen
+		threshold = 126;
+	}
+	for (int i = 0; i < width; i++) { //berekent de zwart-witwaardes op basis van de threshold
+		for (int j = 0; j < height; j++) {
+			auto TMP = image.getPixel(i, j);
+			if ((int)TMP == 127) {// bij exacte grijse pixel van edge detection word de pixel wit
+			copyOfImage->setPixel(i, j, 255);
 			}
-			else if ((int)TMP < threshold) {
-				copyOfImage->setPixel(i, j, 0);
+			else if ((int)TMP >= threshold) {
+				copyOfImage->setPixel(i, j, 255);
 			}
 			else {
-				copyOfImage->setPixel(i, j, 255);
+				copyOfImage->setPixel(i, j, 0);
 			}
 		}
 	}
 	std::cout << max << std::endl; // dit mag
 	std::cout << min << std::endl; // dit mag
-	std::cout << avg/(height*width)<< std::endl; // dit mag
 	time = clock() - time;
 	std::cout << "Time spent Thresholding: " << time << " milliseconds \n";
 	return copyOfImage;
