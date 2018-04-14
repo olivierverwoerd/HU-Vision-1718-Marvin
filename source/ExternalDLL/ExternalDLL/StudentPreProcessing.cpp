@@ -53,26 +53,6 @@ void apply_LOG(IntensityImage &newImage, int x, int y, IntensityImage &copyOfIma
 	else  {
 		newImage.setPixel(x + 4, y + 4, sum);
 	}
-
-	/*if (sum < -20) {
-		if (sum < -255) {
-			newImage.setPixel(x + 4, y + 4, 0);
-		}
-		else {
-			newImage.setPixel(x + 4, y + 4, sum);
-		}
-	}
-	else if (sum > 20) {
-		if (sum > 255) {
-			newImage.setPixel(x + 4, y + 4, 255);
-		}
-		else {
-			newImage.setPixel(x + 4, y + 4, sum);
-		}
-	}
-	else {
-		newImage.setPixel(x + 4, y + 4, 127);
-	}*/
 }
 
 void apply_gaussian(IntensityImage &newImage, int x, int y, IntensityImage &copyOfImage) {
@@ -154,13 +134,6 @@ void filter(IntensityImage &newImage, IntensityImage &copyOfImage) {
 			apply_gaussian(newImage, i, j, copyOfImage);
 		}
 	}
-	/*
-	for (int i = 0; i < width - 4; i++) {
-		for (int j = 0; j < height - 4; j++) {
-			//for every pixel -2x rand
-			apply_laplacian(newImage, i, j, copyOfImage);
-		}
-	}*/
 
 	//LoG filter
 	for (int i = 0; i < width - 4; i++) {
@@ -203,25 +176,8 @@ IntensityImage * StudentPreProcessing::stepEdgeDetection(const IntensityImage &i
 		}
 	}
 
-	//here starts the action!
-	//apply_laplacian(*copyOfImage);
-
-	//------------------------------------------------------Filter is de manier om hem uit te zetten. sorry
 	filter(*newImage, *copyOfImage); 
 	
-	//Dit stuk checkt de volledige NIEUWE afbeelding met GetPixel en zet het in een array
-	/*std::vector <int> v;
-
-	for (int i = 0; i < width; i++) { //set to width
-		for (int j = 0; j < height; j++) { //set to height
-			v.push_back((int)newImage->getPixel(i, j));
-		}
-	}
-	
-	//print width, mostly debug purpose
-	for (auto i = v.begin(); i != v.end(); ++i)
-		std::cout << *i << ' ';
-	*/
 
 	time = clock() - time;
 	std::cout << "\nTime spent EdgeDetection: " << time << " milliseconds \n";
@@ -232,16 +188,9 @@ IntensityImage * StudentPreProcessing::stepThresholding(const IntensityImage &im
 	std::cout << "\n-------------------------------------------\nStarting Thresholding\n\n";
 	clock_t time = clock(); //start clock
 	int threshold;
-	//wederom een nieuwe afbeeling maken in student
-
-	std::cout << (int)image.getPixel(1, 1) << std::endl; // dit mag
-	std::cout << "w=" << image.getWidth() << "  h=" << image.getHeight() << std::endl; // dit mag
 
 	auto width = image.getWidth(); //select for accurate width
 	auto height = image.getHeight();
-
-	//auto width = 5; //for debug
-	//auto height = 5;
 
 	IntensityImage * copyOfImage = ImageFactory::newIntensityImage(image);
 
@@ -286,10 +235,10 @@ IntensityImage * StudentPreProcessing::stepThresholding(const IntensityImage &im
 			}
 		}
 	}
-	std::cout << max << std::endl; // dit mag
-	std::cout << min << std::endl; // dit mag
-	std::cout << threshold << std::endl; // dit mag
-	std::cout << avg << std::endl; // dit mag
+	std::cout << max << std::endl;
+	std::cout << min << std::endl;
+	std::cout << threshold << std::endl;
+	std::cout << avg << std::endl; 
 	time = clock() - time;
 	std::cout << "Time spent Thresholding: " << time << " milliseconds \n";
 	return copyOfImage;
