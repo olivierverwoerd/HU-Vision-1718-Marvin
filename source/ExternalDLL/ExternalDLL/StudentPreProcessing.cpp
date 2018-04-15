@@ -11,40 +11,26 @@
 
 void apply_LOG(IntensityImage &newImage, int x, int y, IntensityImage &copyOfImage) {
 	const int N = 7;
-	const int marge = floor((float)N / 2); //marge is get the center pixel which is [marge] pixels from filter[0][0]
-	/*
-	int LoG[9][9] = { { 0, 1, 1, 2, 2, 2, 1, 1, 0 },
-							{ 1, 2, 4, 5, 5, 5, 4, 2, 1 },
-							{ 1, 4, 5, 3, 0, 3, 5, 4, 1 },
-							{ 2, 5, 3,-12,-24,-12, 3, 5, 2 },
-							{ 2, 5, 0,-24,-40,-24, 0, 5, 2 },
-							{ 2, 5, 3,-12,-24,-12, 3, 5, 2 },
-							{ 1, 4, 5, 3, 0, 3, 5, 4, 1 },
-							{ 1, 2, 4, 5, 5, 5, 4, 2, 1 },
-							{ 0, 1, 1, 2, 2, 2, 1, 1, 0 } };
-	*/
-	int LoG[7][7] = {	{ 0, 0, -1, -2, -1, 0, 0, },
+	const int marge = N/2+1; //marge is get the center pixel which is [marge] pixels from filter[0][0]
+
+	int LoG[N][N] = {	{ 0, 0, -1, -2, -1, 0, 0, },
 						{ 0, -2, -3, -4, -3, -2, 0, },
 						{ -1, -3, 1, 9, 1, -3, -1, },
-						{ -2, -4, 9, 24, 9, -4, -1 },
+						{ -2. - 4, 9, 24, 9, -4, -1 },
 						{ -1, -3, 1, 9, 1, -3, -1, },
 						{ 0, -2, -3, -4, -3, -2, 0, },
-						{ 0, 0, -1, -2, -1, 0, 0 } };
+						{ 0, 0, -1, -2, -1, 0, 0, } };
+
 	double sum = 0;
 
-	for (int i = 0; i <= N-1; i++) {
-		for (int j = 0; j <= N-1; j++) {
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++) {
 			auto temp = int(copyOfImage.getPixel(x + i, y + j));
 			temp *= LoG[i][j];
 			sum += temp;
 		}
 	}
 
-	//std::cout << "SUM:" << sum << std::endl;
-	//newImage.setPixel(x + 4, y + 4, int(sum));
-	//int min = -255;
-	//int max = 255;
-	//std::cout << sum << "\n";
 	sum = sum / 50 + 127;
 
 	if (sum > 256) {
@@ -85,7 +71,6 @@ void apply_gaussian(IntensityImage &newImage, int x, int y, IntensityImage &copy
 }
 
 void apply_laplacian(IntensityImage &newImage, int x, int y, IntensityImage &copyOfImage) {
-	//std::cout << "Starting Apply_laplacian\n\n";
 	const int N = 9;
 	const int marge = floor((float)N / 2);
 
@@ -155,7 +140,7 @@ void filter(IntensityImage &newImage, IntensityImage &copyOfImage) {
 	//LoG filter
 	for (int i = 0; i < width - 4; i++) {
 		for (int j = 0; j < height - 4; j++) {
-			//for every pixel -4x rand
+			//std::cout << (int)copyOfImage.getPixel(100, 100) << std::endl; // dit mag
 			apply_LOG(newImage, i, j, copyOfImage);
 		}
 	}
