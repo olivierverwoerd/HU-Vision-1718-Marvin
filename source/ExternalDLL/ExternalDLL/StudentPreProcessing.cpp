@@ -140,7 +140,6 @@ void filter(IntensityImage &newImage, IntensityImage &copyOfImage) {
 	//LoG filter
 	for (int i = 0; i < width - 4; i++) {
 		for (int j = 0; j < height - 4; j++) {
-			//std::cout << (int)copyOfImage.getPixel(100, 100) << std::endl; // dit mag
 			apply_LOG(newImage, i, j, copyOfImage);
 		}
 	}
@@ -158,14 +157,8 @@ IntensityImage * StudentPreProcessing::stepEdgeDetection(const IntensityImage &i
 	std::cout << "-------------------------------------------\nStarting EdgeDetection\n\n";
 	clock_t time = clock(); //start clock
 
-	std::cout << (int)image.getPixel(1, 1) << std::endl; // dit mag
-	std::cout << "w="<< image.getWidth() << "  h=" << image.getHeight() << std::endl; // dit mag
-
-	auto width = image.getWidth(); //select for accurate width
+	auto width = image.getWidth(); 
 	auto height = image.getHeight();
-	
-	//auto width = 5; //for debug
-	//auto height = 5;
 
 	IntensityImage * newImage = ImageFactory::newIntensityImage(image);
 	IntensityImage * copyOfImage = ImageFactory::newIntensityImage(image);
@@ -191,7 +184,7 @@ IntensityImage * StudentPreProcessing::stepThresholding(const IntensityImage &im
 	clock_t time = clock(); //start clock
 	int threshold;
 
-	auto width = image.getWidth(); //select for accurate width
+	auto width = image.getWidth();
 	auto height = image.getHeight();
 
 	IntensityImage * copyOfImage = ImageFactory::newIntensityImage(image);
